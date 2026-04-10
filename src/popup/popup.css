@@ -33,7 +33,7 @@ body {
 }
 
 .input-section,
-#result-section {
+#result-section:not(.hidden) {
   display: flex;
   flex-direction: column;
   gap: 12px;
