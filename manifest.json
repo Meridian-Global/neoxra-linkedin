@@ -17,7 +17,8 @@
   "content_scripts": [
     {
       "matches": ["https://www.linkedin.com/*"],
-      "js": ["config/config.js", "src/content/content.js"]
+      "js": ["config/config.js", "src/content/content.js"],
+      "all_frames": true
     }
   ],
   "permissions": ["storage", "activeTab", "scripting"],
