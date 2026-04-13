@@ -11,27 +11,45 @@
   <body>
     <main class="popup-shell">
       <header class="popup-header">
-        <h1>Orchestra</h1>
-        <p class="subtitle">LinkedIn</p>
+        <div>
+          <p class="eyebrow">AI Writing Assistant</p>
+          <h1>Orchestra</h1>
+          <p class="subtitle">LinkedIn</p>
+        </div>
+        <p class="header-copy">
+          Turn a rough idea into a polished LinkedIn draft you can review and insert.
+        </p>
       </header>
 
-      <section class="input-section">
+      <section class="panel input-section">
+        <div class="section-heading">
+          <p class="section-label">Input</p>
+          <p class="section-copy">Start with a topic, opinion, or rough post idea.</p>
+        </div>
         <textarea
           id="idea-input"
           placeholder="What's your idea?"
         ></textarea>
-        <button id="generate-btn" type="button">Generate</button>
+        <button id="generate-btn" class="primary-button" type="button">
+          <span class="button-text">Generate Post</span>
+        </button>
       </section>
 
-      <div id="status-text" class="hidden" aria-live="polite"></div>
+      <div id="status-text" class="status-banner hidden" aria-live="polite"></div>
 
-      <section id="result-section" class="hidden">
+      <section id="result-section" class="panel result-panel hidden">
+        <div class="section-heading">
+          <p class="section-label">Output</p>
+          <p class="section-copy">Review the generated draft before sending it to LinkedIn.</p>
+        </div>
         <textarea id="result-text" readonly></textarea>
-        <button id="insert-btn" type="button">Insert into Post</button>
-        <button id="regenerate-btn" type="button">Generate Again</button>
+        <div class="action-group">
+          <button id="insert-btn" class="secondary-button" type="button">Insert into Post</button>
+          <button id="regenerate-btn" class="tertiary-button" type="button">Generate Again</button>
+        </div>
       </section>
 
-      <div id="error-text" class="hidden" aria-live="polite"></div>
+      <div id="error-text" class="error-banner hidden" aria-live="polite"></div>
     </main>
 
     <script src="./popup.js"></script>

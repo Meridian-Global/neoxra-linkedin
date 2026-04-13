@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+  var body = document.body;
   var ideaInput = document.getElementById('idea-input');
   var generateBtn = document.getElementById('generate-btn');
   var statusText = document.getElementById('status-text');
@@ -7,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var insertBtn = document.getElementById('insert-btn');
   var regenerateBtn = document.getElementById('regenerate-btn');
   var errorText = document.getElementById('error-text');
+  var generateBtnText = generateBtn.querySelector('.button-text');
   var statusTimerId = null;
 
   // Restore persisted state
@@ -63,6 +65,16 @@ document.addEventListener('DOMContentLoaded', function () {
     resultSection.classList.remove('hidden');
   }
 
+  function setLoadingState(isLoading) {
+    body.classList.toggle('is-loading', isLoading);
+    generateBtn.disabled = isLoading;
+    ideaInput.disabled = isLoading;
+
+    if (generateBtnText) {
+      generateBtnText.innerText = isLoading ? 'Generating' : 'Generate Post';
+    }
+  }
+
   generateBtn.addEventListener('click', function () {
     var idea = ideaInput.value.trim();
 
@@ -76,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function () {
     hideError();
     hideResult();
     showStatus('Starting...');
-    generateBtn.disabled = true;
+    setLoadingState(true);
 
     runOrchestra(
       idea,
@@ -87,12 +99,12 @@ document.addEventListener('DOMContentLoaded', function () {
         hideStatus();
         showResult(linkedinContent);
         chrome.storage.local.set({ resultContent: linkedinContent });
-        generateBtn.disabled = false;
+        setLoadingState(false);
       },
       function (message) {
         hideStatus();
         showError(message);
-        generateBtn.disabled = false;
+        setLoadingState(false);
       }
     );
   });
