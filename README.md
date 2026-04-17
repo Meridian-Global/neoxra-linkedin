@@ -1,6 +1,6 @@
-# Orchestra LinkedIn
+# Neoxra LinkedIn
 
-Chrome extension for generating LinkedIn posts with Orchestra AI and inserting them into the LinkedIn composer.
+Chrome extension for generating LinkedIn posts with Neoxra AI and inserting them into the LinkedIn composer.
 
 ## Current Stage
 
@@ -17,27 +17,27 @@ Implemented so far:
 Not implemented yet:
 
 - Popup interaction logic in `src/popup/popup.js`
-- Orchestra API client and SSE parsing in `src/api/orchestraClient.js`
+- Neoxra API client and SSE parsing in `src/api/neoxraClient.js`
 - LinkedIn composer insertion logic in `src/content/content.js`
 
 At this stage, the extension loads in Chrome, shows the popup shell, registers the service worker, and resolves the configured icons, but it does not generate or insert content yet.
 
 ## Overview
 
-`orchestra-linkedin` is a Manifest V3 Chrome extension that:
+`neoxra-linkedin` is a Manifest V3 Chrome extension that:
 
 - Opens from the Chrome toolbar as a popup UI
-- Sends a LinkedIn post idea to the Orchestra backend
+- Sends a LinkedIn post idea to the Neoxra backend
 - Waits for the backend's SSE pipeline to finish
 - Extracts the final polished LinkedIn post
 - Inserts that post into the active LinkedIn composer
 
-This repository is intentionally scoped as a focused MVP. The extension is designed for local development first, using `http://localhost:8000` as the Orchestra backend.
+This repository is intentionally scoped as a focused MVP. The extension is designed for local development first, using `http://localhost:8000` as the Neoxra backend.
 
 ## Repository Architecture
 
 ```text
-orchestra-linkedin/
+neoxra-linkedin/
 ├── manifest.json
 ├── src/
 │   ├── popup/
@@ -49,7 +49,7 @@ orchestra-linkedin/
 │   ├── background/
 │   │   └── service_worker.js
 │   └── api/
-│       └── orchestraClient.js
+│       └── neoxraClient.js
 ├── config/
 │   └── config.js
 └── icons/
@@ -66,8 +66,8 @@ orchestra-linkedin/
 - `src/popup/popup.css`: Popup sizing and layout.
 - `src/content/content.js`: LinkedIn DOM insertion only.
 - `src/background/service_worker.js`: Minimal background worker for MV3 compatibility and future message relay needs.
-- `src/api/orchestraClient.js`: `fetch` call plus SSE parser that returns the best LinkedIn result from Orchestra.
-- `config/config.js`: Shared `ORCHESTRA_BASE_URL` constant.
+- `src/api/neoxraClient.js`: `fetch` call plus SSE parser that returns the best LinkedIn result from Neoxra.
+- `config/config.js`: Shared `NEOXRA_BASE_URL` constant.
 - `icons/`: Extension toolbar and manifest icons.
 
 ## Key Technical Decisions
@@ -94,7 +94,7 @@ orchestra-linkedin/
 - Read the generated LinkedIn post in the popup
 - Click Insert into Post to place the content into the LinkedIn composer
 - See a loading state while generation is running
-- See a clear error message if Orchestra is unavailable or the LinkedIn composer is not found
+- See a clear error message if Neoxra is unavailable or the LinkedIn composer is not found
 
 ### Explicitly Excluded from V1
 
@@ -158,7 +158,7 @@ data: <json string>
 
 ### Result Extraction Rules
 
-`src/api/orchestraClient.js` should use this fallback chain:
+`src/api/neoxraClient.js` should use this fallback chain:
 
 1. `critic_completed.data.linkedin_improved`
 2. `linkedin_pass2_completed.data.output`
@@ -175,7 +175,7 @@ V1 should parse SSE events but not stream partial text into the UI. Instead:
 4. Wait until `critic_completed` or the end of the pipeline
 5. Display the final generated LinkedIn post all at once
 
-This keeps the integration compatible with the existing Orchestra API without adding a more complex streaming renderer to the popup.
+This keeps the integration compatible with the existing Neoxra API without adding a more complex streaming renderer to the popup.
 
 ## Chrome Extension Permissions
 
@@ -192,10 +192,10 @@ When moving to production, update both:
 
 ## Local Development
 
-Start the Orchestra backend from the main Orchestra repository:
+Start the Neoxra backend from the main Neoxra repository:
 
 ```bash
-uvicorn orchestra.backend.main:app --reload
+uvicorn neoxra.backend.main:app --reload
 ```
 
 Then load this extension in Chrome:
@@ -218,7 +218,7 @@ The extension will call `http://localhost:8000/api/run`.
         ↓
 [User enters idea and clicks Generate]
         ↓
-[popup.js calls orchestraClient.js]
+[popup.js calls neoxraClient.js]
         ↓
 [POST /api/run with { idea, voice_profile: "default" }]
         ↓
@@ -237,7 +237,7 @@ The extension will call `http://localhost:8000/api/run`.
 
 ## Expected Error States
 
-- Orchestra unreachable: `Could not reach Orchestra. Is it running on localhost:8000?`
+- Neoxra unreachable: `Could not reach Neoxra. Is it running on localhost:8000?`
 - Stream parse or generation failure: `Generation failed. Try again.`
 - Composer not found: `Open the LinkedIn post composer first, then click Insert.`
 - No LinkedIn tab active: `Navigate to LinkedIn first.`
@@ -281,12 +281,12 @@ Long-running work inside the service worker is fragile because MV3 workers can b
 
 Mitigation:
 
-- Do not run the Orchestra fetch from the service worker in V1
+- Do not run the Neoxra fetch from the service worker in V1
 - Keep the worker minimal
 
 ### 5. Long API latency
 
-The Orchestra pipeline may take roughly 15 to 30 seconds.
+The Neoxra pipeline may take roughly 15 to 30 seconds.
 
 Mitigation:
 

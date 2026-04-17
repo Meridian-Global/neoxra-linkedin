@@ -1,4 +1,4 @@
-async function runOrchestra(idea, onStatus, onComplete, onError) {
+async function runNeoxra(idea, onStatus, onComplete, onError) {
   var criticResult = null;
   var pass2Result = null;
   var pass1Result = null;
@@ -146,7 +146,7 @@ async function runOrchestra(idea, onStatus, onComplete, onError) {
   }
 
   try {
-    var response = await fetch(ORCHESTRA_BASE_URL + '/api/run', {
+    var response = await fetch(NEOXRA_BASE_URL + '/api/run', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -202,7 +202,7 @@ async function runOrchestra(idea, onStatus, onComplete, onError) {
         try {
           processEvent(parsedEvent.event, parsedEvent.data);
         } catch (error) {
-          safeError(error.message || 'Failed to process Orchestra stream');
+          safeError(error.message || 'Failed to process Neoxra stream');
           return;
         }
       }
@@ -213,7 +213,7 @@ async function runOrchestra(idea, onStatus, onComplete, onError) {
         var finalEvent = parseEventBlock(buffer.trim());
         processEvent(finalEvent.event, finalEvent.data);
       } catch (error) {
-        safeError(error.message || 'Failed to process Orchestra stream');
+        safeError(error.message || 'Failed to process Neoxra stream');
         return;
       }
     }
@@ -237,6 +237,6 @@ async function runOrchestra(idea, onStatus, onComplete, onError) {
       safeError('No LinkedIn content generated');
     }
   } catch (error) {
-    safeError('Failed to reach Orchestra: ' + error.message);
+    safeError('Failed to reach Neoxra: ' + error.message);
   }
 }

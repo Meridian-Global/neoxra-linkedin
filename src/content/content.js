@@ -1,5 +1,5 @@
 // ============================================================
-// Orchestra LinkedIn – Content Script
+// Neoxra LinkedIn – Content Script
 // Injected into linkedin.com pages (all frames).
 // Handles INSERT_LINKEDIN_POST messages from the popup.
 // ============================================================
