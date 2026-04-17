@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Orchestra LinkedIn",
+  "name": "Neoxra LinkedIn",
   "version": "0.1.0",
-  "description": "Generate LinkedIn posts with Orchestra AI",
+  "description": "Generate LinkedIn posts with Neoxra AI",
   "action": {
     "default_popup": "src/popup/popup.html",
     "default_icon": {

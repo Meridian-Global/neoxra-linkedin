@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
     showStatus('Starting...');
     setLoadingState(true);
 
-    runOrchestra(
+    runNeoxra(
       idea,
       function (text) {
         showStatus(text);
